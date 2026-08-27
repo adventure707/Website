@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Machined carabiner mechanical engineering project case study by Andrew Dillon." />
+  <title>Anodized Chess Set | Andrew Dillon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Oxanium:wght@600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    
+:root {
+      --bg: #050506;
+      --panel: #0b0b0d;
+      --panel-2: #111114;
+      --ink: #f4f1ea;
+      --muted: #9f9b90;
+      --soft: #c7c0b2;
+      --line: rgba(244, 241, 234, 0.16);
+      --line-strong: rgba(244, 241, 234, 0.28);
+      --accent: #ff6a00;
+      --accent-dark: #f6c15b;
+      --blueprint: #77aaff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --radius: 24px;
+      --max: 1250px;
+      --display: "Barlow Condensed", "Aptos Display", "Segoe UI", system-ui, sans-serif;
+      --font: "Sora", "Aptos Display", "Segoe UI", system-ui, sans-serif;
+      --body: "IBM Plex Sans", "Aptos", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+    }
+    
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 78% 8%, rgba(255, 106, 0, 0.18), transparent 30rem),
+        radial-gradient(circle at 12% 40%, rgba(119, 170, 255, 0.08), transparent 28rem),
+        linear-gradient(90deg, rgba(244,241,234,0.035) 1px, transparent 1px),
+        linear-gradient(rgba(244,241,234,0.035) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, auto, 72px 72px, 72px 72px, auto;
+      color: var(--ink);
+      font-family: var(--body);
+      line-height: 1.55;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(5,5,6,0.08), rgba(5,5,6,0.92));
+    }
+    
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    .shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5,5,6,0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .nav-wrap {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+    }
+    
+    .brand {
+      justify-self: start;
+      font-family: var(--font);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      text-decoration: none;
+      font-size: clamp(1.05rem, 2vw, 1.32rem);
+    }
+    .brand span { color: var(--accent); }
+    
+    .main-nav { justify-self: center; display: flex; align-items: center; gap: 8px; }
+    .main-nav a, .social-links a, .button, .learn-more {
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+    .main-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 15px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(244,241,234,0.055);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--soft);
+    }
+    .main-nav a:hover, .main-nav a[aria-current="page"] {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+    
+    .social-links { justify-self: end; display: flex; align-items: center; gap: 8px; }
+    .social-links a {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(244,241,234,0.055);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .social-links a:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+    
+    .home-hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: 54px;
+      align-items: center;
+      padding: 86px 0 72px;
+    }
+    
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    
+    h1, h2, h3, p { text-wrap: pretty; }
+    h1, h2, .brand, .what-item strong {font-family: var(--display);}
+    h3, .project-card h3, .process-step h3 {font-family: var(--font);}
+    
+    .hero-copy h1 {
+      margin: 0 0 24px;
+      font-size: clamp(3rem, 8vw, 6.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+      max-width: 900px;
+      font-weight: 900;
+    }
+    .intro-text {
+      margin: 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: clamp(1.12rem, 2vw, 1.35rem);
+    }
+    .quick-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    
+    .button, .learn-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 0.86rem;
+      background: rgba(244,241,234,0.055);
+    }
+    .button.primary, .learn-more { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .button.secondary { background: transparent; color: var(--ink); }
+    .button:hover, .learn-more:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--accent); color: var(--bg); }
+    
+    .what-card, .project-card, .project-facts, .process-step, .proof-card {
+      background: rgba(11,11,13,0.82);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .what-card { border-radius: var(--radius); padding: 28px; }
+    .what-card h2 {
+      margin: 0 0 24px;
+      font-size: 1rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .what-list { display: grid; gap: 18px; }
+    .what-item { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .what-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .what-item strong { display: block; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.06em; line-height: 0.95; font-weight: 900; }
+    .what-item p { margin: 8px 0 0; color: var(--muted); }
+    
+    .section { padding: 74px 0; border-top: 1px solid var(--line); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 30px; }
+    .section-head h2 { margin: 0; font-size: clamp(2.2rem, 5.5vw, 4.8rem); line-height: 0.98; letter-spacing: -0.065em; font-weight: 900; }
+    .section-note { margin: 0; max-width: 360px; color: var(--muted); }
+    
+    .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .project-card { border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-height: 100%; }
+    .project-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--panel-2); border-bottom: 1px solid var(--line); }
+    .project-card-body { padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+    .project-card h3 { margin: 0; font-size: clamp(1.5rem, 2.7vw, 2.2rem); line-height: 1; letter-spacing: -0.05em; font-weight: 900; }
+    .project-card p { margin: 0; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .tag { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; font-family: var(--mono); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; color: var(--muted); }
+    .learn-more { align-self: flex-start; margin-top: 2px; }
+    
+    .contact-strip { background: rgba(11,11,13,0.92); border: 1px solid var(--line); color: var(--ink); border-radius: var(--radius); padding: 30px; display: flex; align-items: center; justify-content: space-between; gap: 22px; box-shadow: var(--shadow); }
+    .contact-strip h2 { margin: 0 0 6px; font-size: clamp(1.8rem, 4vw, 3.3rem); line-height: 1; letter-spacing: -0.055em; font-weight: 900; }
+    .contact-strip p { margin: 0; color: var(--muted); }
+    .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .footer { padding: 34px 0 44px; color: var(--muted); font-family: var(--mono); font-size: 0.76rem; text-transform: uppercase; }
+    
+    .case-page { padding: 46px 0 74px; }
+    .back-link { display: inline-flex; align-items: center; margin-bottom: 28px; color: var(--muted); text-decoration: none; font-weight: 800; }
+    .back-link:hover { color: var(--accent); }
+    .case-hero { display: grid; gap: 28px; margin-bottom: 42px; }
+    .case-title-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr); gap: 34px; align-items: end; }
+    .case-title-grid h1 { margin: 0 0 18px; font-size: clamp(3rem, 8vw, 7rem); line-height: 0.95; letter-spacing: -0.055em; font-weight: 900; }
+    .case-summary { margin: 0; max-width: 760px; color: var(--soft); font-size: clamp(1.05rem, 1.8vw, 1.28rem); font-weight:400; }
+    .project-facts { margin: 0; border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; }
+    .fact-row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .fact-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .fact-row dt {margin: 0;font-family: var(--mono);font-size: 0.72rem;font-weight: 850;letter-spacing: 0.08em;color: var(--accent);text-transform: uppercase;}
+    .fact-row dd {margin: 0;color: var(--muted);font-weight: 400;font-size: 1.05rem;line-height: 1.45;}
+    .fact-list {list-style: none;margin: 0;padding: 0;display: grid;gap: 1px;}
+    .fact-list li {position: relative;padding-left: 16px;color: var(--muted);font-weight: 400;font-size: 1.05rem;line-height: 1.45;}
+    .fact-list li::before {content: "";position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px;border-radius: 999px;background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.12);}
+    .hero-image, .gallery img { width: 100%; object-fit: cover; border: 1px solid var(--line); background: var(--panel-2); }
+    .hero-image { aspect-ratio: 16 / 9; border-radius: 28px; box-shadow: var(--shadow); }
+    .case-section { padding: 46px 0; border-top: 1px solid var(--line); }
+    .case-section h2 { margin: 0 0 18px; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.05em; font-weight: 900; }
+    .case-section > p, .case-copy p { color: var(--soft); max-width: 760px; font-size: 1.05rem; }
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .gallery img { aspect-ratio: 4 / 3; border-radius: 18px; }
+    .two-column { display: grid; grid-template-columns: 0.72fr 1.28fr; gap: 34px; align-items: start; }
+    .process-stack { display: grid; gap: 16px; }
+    .process-step { display: grid; grid-template-columns: 130px 1fr; gap: 22px; border-radius: 20px; padding: 22px; }
+    .step-num { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+    .process-step h3 { margin: 0 0 8px; font-size: clamp(1.35rem, 2.5vw, 2rem); line-height: 1.05; letter-spacing: -0.045em; font-weight: 900; }
+    .process-step p { margin: 0; font-family: var(--body); color: var(--muted); }
+    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .proof-card { border-radius: 20px; padding: 20px; }
+    .proof-card strong { display: block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .proof-card p { margin: 0; color: var(--muted); }
+    .proof-list {list-style: none;margin: 0;padding: 0;display: grid;gap: 7px;}
+    .proof-list li {position: relative;padding-left: 16px;color: var(--muted);font-size: 0.95rem;line-height: 1.35;}
+    .proof-list li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px;border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.12);}
+
+    .overview-proof {grid-column: 1 / -1;margin-top: 8px;}
+    .overview-proof .proof-grid {grid-template-columns: repeat(4, minmax(0, 1fr));}
+
+    .next-links { display: flex; justify-content: space-between; gap: 14px; padding-top: 34px; border-top: 1px solid var(--line); }
+    .next-links a { text-decoration: none; font-weight: 850; }
+    .next-links a:hover { color: var(--accent); }
+    
+    @media (max-width: 900px) {
+      .nav-wrap { grid-template-columns: 1fr; padding: 14px 0; }
+      .brand, .main-nav, .social-links { justify-self: center; }
+      .home-hero, .case-title-grid, .two-column { grid-template-columns: 1fr; }
+      .home-hero { min-height: auto; padding: 62px 0; }
+      .project-grid, .gallery, .proof-grid { grid-template-columns: 1fr; }
+      .section-head, .contact-strip { display: block; }
+      .section-note, .contact-actions { margin-top: 18px; }
+    }
+    
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 28px, var(--max)); }
+      .main-nav { width: 100%; justify-content: center; flex-wrap: wrap; }
+      .main-nav a { min-height: 38px; padding: 0 12px; }
+      .social-links a { width: 36px; height: 36px; }
+      .hero-copy h1 { font-size: clamp(2.55rem, 14vw, 4rem); }
+      .case-title-grid h1 { font-size: clamp(2.55rem, 14vw, 4.4rem); }
+      .process-step { grid-template-columns: 1fr; }
+      .fact-row { grid-template-columns: 1fr; }
+      .next-links { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-wrap">
+      <a class="brand" href="index.html" aria-label="Andrew Dillon home">Andrew<span>.</span>Dillon</a>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="resume.pdf">Resume</a>
+        <a href="index.html#projects" aria-current="page">Projects</a>
+      </nav>
+
+      <div class="social-links" aria-label="Social links">
+        <a href="mailto:andrewdillon011@gmail.com" aria-label="Email Andrew">@</a>
+        <a href="https://www.linkedin.com/in/andrewdillon011/" aria-label="LinkedIn profile">in</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell case-page">
+    <a class="back-link" href="index.html#projects">← Back to projects</a>
+
+    <section class="case-hero">
+      <div class="case-title-grid">
+        <div>
+          <p class="eyebrow">Project case study</p>
+          <h1>Anodized Chess Set</h1>
+          <p class="case-summary">
+            A CAD design and CNC manufacturing project focused on producing intricate chess pieces while building skills in detailed CAD modeling, repeatable machining, and anodized surface finishing.
+          </p>
+        </div>
+
+        <dl class="project-facts">
+          <div class="fact-row">
+            <dt>Ownership</dt>
+            <dd>Personal project </dd>
+          </div>
+          <div class="fact-row">
+            <dt>Skills Developed</dt>
+            <dd>
+              <ul class="fact-list">
+                <li>CAD Design</li>
+                <li>Design for Manufacturing</li>
+                <li>Repeatable production</li>
+                <li>Machine operation planning</li>
+                <li>Anodized finishing</li>
+                <li>Iteration</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="fact-row">
+            <dt>Result</dt>
+            <dd>Produced two full CNC-machined chess sets with 64 finished pieces, detailed geometry, repeatable production methods, and custom anodized finishes.</dd>
+          </div>
+        </dl>
+      </div>
+
+    <section class="case-section">
+      <div class="gallery">
+        <img src="images/king.jpeg" alt="King" />
+        <img src="images/queen.jpeg" alt="Queen" />
+        <img src="images/knight.jpeg" alt="Knight" />
+        <img src="images/bishop.jpeg" alt="Bishop" />
+        <img src="images/rook.jpeg" alt="Rook" />
+        <img src="images/pawn.jpeg" alt="Pawn" />
+        <img src="images/orange-iso.jpeg" alt="Orange Iso" />
+        <img src="images/blue-iso.jpeg" alt="Blue Iso" />
+        <img src="images/anodizing-setup.jpg" alt="Anodizing Setup" />
+      </div>
+    </section>
+
+  <section class="case-section two-column">
+  <div>
+    <p class="eyebrow">Overview</p>
+    <h2>What I made</h2>
+  </div>
+
+  <div class="case-copy">
+    <p>
+      I designed and manufactured two full CNC-machined chess sets to develop my CAD and manufacturing skills by taking intricate part geometry from concept through fabrication. As my first CNC project, the chess set helped me build a foundation in CAD modeling, machining setup, and repeatable production workflows.
+    </p>
+
+    <p>
+      I experimented with anodizing process variables such as voltage, duration, sulfuric acid concentration, and dye concentration to achieve the final color and surface finish I wanted. This experimentation helped me develop process documentation skills and better understand the anodization process.
+    </p>
+  </div>
+
+  <div class="overview-proof" aria-label="Project overview">
+    <div class="proof-grid">
+      <article class="proof-card">
+        <strong>Material</strong>
+        <p>6061 Aluminum</p>
+      </article>
+
+      <article class="proof-card">
+        <strong>Machines</strong>
+        <ul class="proof-list">
+          <li>Haas CNC Super Mini Mill (4-axis)</li>
+          <li>Haas CNC TL-1</li>
+          <li>Drill Press</li>
+          <li>DC Power Supply</li>
+          <li>Sulfuric Acid</li>
+        </ul>
+      </article>
+      
+      <article class="proof-card">
+        <strong>Components</strong>
+        <ul class="proof-list">
+          <li>King (x4)</li>
+          <li>Queen (x4)</li>
+          <li>Knight (x8)</li>
+          <li>Bishop (x8)</li>
+          <li>Rook (x8)</li>
+          <li>Pawn (x32)</li>
+          <li>Board</li>
+        </ul>
+      </article>
+      
+      <article class="proof-card">
+        <strong>Critical features</strong>
+        <ul class="proof-list">
+          <li>Engraving depth</li>
+          <li>Anodizing process</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+    <section class="case-section">
+      <h2>Process</h2>
+      <div class="process-stack">
+        <article class="process-step">
+          <span class="step-num">01 Ideation</span>
+          <div>
+            <h3>Outlined design geometry.</h3>
+            <p>
+              Researched chess piece geometry and created initial sketches to define the overall design aesthetic.
+            </p>
+          </div>
+        </article>
+
+        <article class="process-step">
+          <span class="step-num">02 Design</span>
+          <div>
+            <h3>Modeled individual components, created CAM workflows.</h3>
+            <p>
+              Modeled each chess piece in Fusion 360, planned repeatable manufacturing operations, and created CAM workflows to support consistent production across the full set.
+            </p>
+          </div>
+        </article>
+
+        <article class="process-step">
+          <span class="step-num">03 Manufacturing</span>
+          <div>
+            <h3>Manufactured chess pieces and chess board.</h3>
+            <p>
+            Machined each chess piece using geometry-driven operation sequences. Milling operations were completed before turning to simplify workpiece probing and preserve consistent setup references. Chessboard was machined from two distinct wood types, creating checkerboard pattern.
+          </p>
+          </div>
+        </article>
+
+        <article class="process-step">
+          <span class="step-num">04 Finishing</span>
+          <div>
+            <h3>Finished chess pieces and chess board.</h3>
+            <p>
+            Cleaned the chess pieces in a heated Simple Green solution to remove oils and debris, then anodized them in a sulfuric acid bath. After anodizing, I rinsed the parts in a baking soda neutralizing wash and distilled water before dyeing them in a heated dye bath and sealing the finish in boiling water. 
+            </p>
+          </div>
+        </article>
+
+    <nav class="next-links" aria-label="Project navigation">
+      <a href="index.html#projects">← All projects</a>
+      <a href="pick-box.html">Next project →</a>
+    </nav>
+  </main>
+
+  <footer class="shell footer">
+    <p>© 2026 Andrew Dillon. Mechanical engineering portfolio.</p>
+  </footer>
+</body>
+</html>
